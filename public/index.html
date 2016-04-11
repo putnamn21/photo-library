@@ -1,0 +1,163 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="photoApp">
+
+<head>
+  <!-- META -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Optimize mobile viewport -->
+
+  <title>Photo Gallery</title>
+
+  <!-- SCROLLS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <!-- load bootstrap -->
+  <link rel="stylesheet" href="./main.css">
+
+  <!-- SPELLS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+  <script src="/scripts/ng-file-upload-shim.js"></script>
+  <script src="/scripts/ng-file-upload.js"></script>
+  <!-- load angular -->
+
+
+</head>
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+
+<body ng-controller="mainController" ng-init="register=false">
+  <div class="myContainer">
+     <div class="image-container">
+       <div class="full-image" style="background-image: url({{'img/'+mainImage.fileName}})"></div>
+     </div>
+    <div class="photo-display">
+      <div class="photo-detail-section">
+        <span class="glyphicon glyphicon-picture"></span>
+        <div class="photo-detail">
+          <h3>{{mainImage.location}}</h3>
+          <ul>
+            <li>Camera: {{mainImage.camera}}</li>
+            <li>Coordinates: ({{mainImage.coordinates[0]}}, {{mainImage.coordinates[1]}})</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+     <div class="row">
+      <div class="buttons">
+        <button class="my-button" ng-show="user.success" ng-click="logout()">Log Out</button>
+        <button type="button" class="my-button" data-toggle="modal" data-target="#uploadModal" ng-show="user.success">Add Photo</button>
+        <button type="button" class="my-button" data-toggle="modal" data-target="#logInModal" ng-hide="user.success">Log In</button>
+      </div>
+      
+      
+<!--LOGIN MODAL-->      
+       <div id="logInModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h5 class="modal-title"><a href="#" ng-click="register = false" ng-show="register">Login</a><a href="#" ng-click="register = true" ng-hide="register">Register</a></h5>
+            </div>
+            <div class="modal-body">
+              <form ng-hide="register">
+                <h4>Login</h4>
+                <input class="form-control" type="text" name="username" ng-model="loginFormUser" required>
+                <input class="form-control" type="password" name="password" placeholder="password" ng-model="loginFormPass" required>
+                <p ng-show="formError">{{formError}}</p>
+                <hr/>
+                <span class="btn btn-success" ng-click="loginUser()">Submit</span>
+              </form>
+              <form ng-show="register">
+                <h4>Register</h4>
+                  <input class="form-control" type="text" ng-model="registerFormUser" required>
+                  <input class="form-control" type="password" placeholder="password" ng-model="registerFormPass" required>
+                  <input class="form-control" type="password" placeholder="password (again)" ng-model="registerFormPass1" required>
+                  <p ng-show="formError">{{formError}}</p>
+                  <hr/>
+                  <span class="btn btn-success" ng-click="registerNewUser()">Submit</span>
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- /LOGIN MODAL-->
+     
+<!-- UPLOAD IMAGE MODAL -->   
+      <div id="uploadModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Upload Your Image</h4>
+            </div>
+            <div class="modal-body">
+              <form name="photoForm">
+                <h4>Select an image to upload:</h4>
+                <div class="form-group">
+                  <input name="fileInput" type="file" id="fileInput" ngf-select ng-model="photoUploadFile" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="10MB" ngf-min-height="100" ngf-resize="{width: 1500, height: 900}" enctype="multipart/form-data" required>
+                  <label for="fileInput">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                    <span id="fileImage" ng-hide="photoUploadFile.name">Choose a file...</span>
+                    <span ng-show="photoUploadFile.name">{{photoUploadFile.name}}</span>
+                  </label>
+                  <i ng-show="photoForm.fileInput.$error.required">*required</i>
+                </div>
+                <div class="form-group">
+                  <i ng-show="photoForm.lat.$error.required">*required</i>
+                  <input name="lat" class="form-control" type="number" ng-model="lat" placeholder="lat" step="any" required>
+                </div>
+                <div class="form-group">
+                  <i ng-show="photoForm.long.$error.required">*required</i>
+                  <input name="long" class="form-control" type="number" ng-model="long" placeholder="long" step="any" required>
+                </div>
+                <div class="form-group">
+                  <i ng-show="photoForm.location.$error.required">*required</i>
+                  <input name="location" class="form-control" type="text" ng-model="location" placeholder="location" required>
+                </div>
+                <div class="form-group">
+                  <i ng-show="photoForm.camera.$error.required">*required</i>
+                  <input name="camera" class="form-control" type="text" ng-model="camera" placeholder="camera" required>
+                </div>
+                <hr/>
+                <button class="btn btn-success" ng-disabled="!photoForm.$valid" ng-click="uploadPhoto(photoUploadFile)">Submit</button>
+                <div ng-show="photoUploadFile.progress >=0">
+                  <h4>Upload Successful</h4>
+                  <div class="upload-progress" style="width:{{photoUploadFile.progress}}%;" ng-bind="photoUploadFile.progress + '%'"></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- UPLOAD IMAGE MODAL -->   
+      
+      
+      
+    </div>
+
+    <div class="thumbnails-area">
+      <div style="height: 100px;"></div>
+      <div class="all-thumbnails">
+        <div class="my_thumbnail" ng-repeat="photo in photos">
+          <button class="btn btn-xs btn-danger" ng-click="deletePhoto(photo._id, photo.fileName)" ng-show="user.success">Delete</button>
+          <img class="img img-responsive" src="{{'img/'+photo.fileName}}" ng-click="makeBig(photo)" alt="">
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <!-- load jquery -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="core.js"></script>
+</body>
+
+</html>
