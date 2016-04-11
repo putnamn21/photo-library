@@ -230,7 +230,8 @@
     apiRouter.post('/upload', upload.single('file'), function (req, res, err) {
 
       var coordinates = [parseFloat(req.body.lat), parseFloat(req.body.long)];
-      console.log(coordinates);
+      
+      console.log(req.file);
 
       Photo.create({
               coordinates : coordinates,

@@ -1,7 +1,13 @@
 var app = angular.module('photoApp', ['ngFileUpload']);
 
+app.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
 
-app.controller('mainController', ['$scope','Upload','$http', '$timeout', function($scope,Upload,$http,$timeout){
+
+app.controller('mainController', ['$scope','Upload','$http', '$timeout', '$sce', function($scope,Upload,$http,$timeout,$sce){
   
     //grabs session user
     function refreshUser(){
@@ -29,8 +35,11 @@ app.controller('mainController', ['$scope','Upload','$http', '$timeout', functio
               url: '/api/photos',
               headers: {'authorization': $scope.user.token}
                   }).then(function successCallback(response) {
+                        var randomPhoto = Math.floor(Math.random()*response.data.length);
+              
                         $scope.photos = response.data;
-                        $scope.mainImage = response.data[0];
+                        // display a random main image when landing on the page
+                        $scope.makeBig(response.data[randomPhoto]);
                         var path = window.location.pathname;
                         if(path !== "/"){
                           window.location.pathname = '/';
@@ -58,13 +67,12 @@ app.controller('mainController', ['$scope','Upload','$http', '$timeout', functio
                   headers: {'authorization': $scope.user.token},
                 }).then(function successCallback(response) {
                           console.log(response);
-                  
-                          
-                      
-
                           
                           if(!response.data.success){
                             $scope.formError = response.data.message;
+                            $timeout(function(){
+                              $scope.formError = "";
+                            }, 2000)
                             return
                           }
                           $('#logInModal').modal("hide");
@@ -176,12 +184,23 @@ app.controller('mainController', ['$scope','Upload','$http', '$timeout', functio
 
     $scope.makeBig = function (photo){
       $scope.mainImage = photo;
+      $scope.source = $sce.trustAsResourceUrl('http://maps.google.com/maps?q='+photo.coordinates[0]+','+photo.coordinates[1]+'&z=10&output=embed');
     };
   
     $scope.logout = function(){
       sessionStorage.setItem('user', null);
       refreshUser();
     };
+  
+    $scope.showMap = function(lat, long){
+      $('#mapModal').modal("show");
+      
+      console.log(lat, long);
+    }
+    
+    $scope.hideMap = function(){
+      $('#mapModal').modal("hide");
+    }
   
 }]); // end of main controller +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

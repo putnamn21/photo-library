@@ -48,7 +48,11 @@ body
       border-color lighten($white, 10)
       color lighten($white, 10)
       outline none
- 
+#mapModal
+  .modal-content
+    height 500px
+    button
+      margin 10px
 #uploadModal
   #fileInput
     height 0.1px
@@ -77,7 +81,7 @@ body
   top 20px
   right 20px
 .photo-detail-section
-  padding 10px
+  padding 25px
   border-radius 2px
   background-color rgba(0, 0, 0, 0)
   color $blackTrans
@@ -87,6 +91,10 @@ body
   width 30%
   margin-left 70%
   overflow hidden
+  ul 
+    list-style-type: circle;
+    padding-left: 5px;
+    font-size: 16px;
   .glyphicon-picture
     position absolute
     top 5px
@@ -98,7 +106,7 @@ body
     margin-top 50px
   &:hover
     border 1px solid $blackTrans
-    background-color $whiteTrans
+    background-color rgba(255, 255, 255, 0.5)
     color $black
     margin-left 0%
     height 300px
@@ -111,7 +119,6 @@ body
       
 .thumbnails-area
   width 100%
-  overflow-y scroll
   height 300px
   position fixed
   bottom -200px
@@ -120,7 +127,9 @@ body
   &:hover
     bottom -50px
 .all-thumbnails
-  height: 50px
+  height 125px
+  overflow scroll
+  white-space nowrap
 .my_thumbnail
   height auto
   vertical-align: top;
@@ -139,3 +148,4 @@ body
     border 1px solid $blackTrans
 .strike-through 
   text-decoration line-through
+

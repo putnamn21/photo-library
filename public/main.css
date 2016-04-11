@@ -57,6 +57,12 @@ body {
   color: #ebebeb;
   outline: none;
 }
+#mapModal .modal-content {
+  height: 500px;
+}
+#mapModal .modal-content button {
+  margin: 10px;
+}
 #uploadModal #fileInput {
   height: 0.1px;
   width: 0.1px;
@@ -95,7 +101,7 @@ body {
   right: 20px;
 }
 .photo-detail-section {
-  padding: 10px;
+  padding: 25px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
   background-color: rgba(0,0,0,0);
@@ -110,6 +116,11 @@ body {
   width: 30%;
   margin-left: 70%;
   overflow: hidden;
+}
+.photo-detail-section ul {
+  list-style-type: circle;
+  padding-left: 5px;
+  font-size: 16px;
 }
 .photo-detail-section .glyphicon-picture {
   position: absolute;
@@ -128,7 +139,7 @@ body {
 }
 .photo-detail-section:hover {
   border: 1px solid rgba(0,0,0,0.5);
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.5);
   color: #141414;
   margin-left: 0%;
   height: 300px;
@@ -139,7 +150,6 @@ body {
 }
 .thumbnails-area {
   width: 100%;
-  overflow-y: scroll;
   height: 300px;
   position: fixed;
   bottom: -200px;
@@ -154,7 +164,9 @@ body {
   bottom: -50px;
 }
 .all-thumbnails {
-  height: 50px;
+  height: 125px;
+  overflow: scroll;
+  white-space: nowrap;
 }
 .my_thumbnail {
   height: auto;
