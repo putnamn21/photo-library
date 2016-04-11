@@ -19,7 +19,16 @@
 
     var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
     // Mongoose configuration =================
-    mongoose.connect('mongodb://localhost/myapp');
+    var db = mongoose.connection;
+
+      db.on('error', console.error);
+      db.once('open', function() {
+        // Create your schemas and models here
+        console.log("Connected to DB!");
+
+      });
+      
+    mongoose.connect('mongodb://putnamn21:password@ds021999.mlab.com:21999/putnamn21');
 
     app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
     app.use(morgan('dev'));                                         // log every request to the console
