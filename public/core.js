@@ -184,7 +184,7 @@ app.controller('mainController', ['$scope','Upload','$http', '$timeout', '$sce',
 
     $scope.makeBig = function (photo){
       $scope.mainImage = photo;
-      $scope.source = $sce.trustAsResourceUrl('http://maps.google.com/maps?q='+photo.coordinates[0]+','+photo.coordinates[1]+'&z=10&output=embed');
+      $scope.source = $sce.trustAsResourceUrl('https://maps.google.com/maps?q='+photo.coordinates[0]+','+photo.coordinates[1]+'&z=10&output=embed');
     };
   
     $scope.logout = function(){
