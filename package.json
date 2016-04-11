@@ -4,6 +4,10 @@
   "description": "Photogallery",
   "main": "server.js",
   "author": "Nathan",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "body-parser": "~1.5.2",
     "express": "~4.7.2",
@@ -12,5 +16,8 @@
     "mongoose": "^4.4.12",
     "morgan": "~1.2.2",
     "multer": "^1.1.0"
+  },
+  "engines": {
+    "node": "5.5.0"
   }
 }
