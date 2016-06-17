@@ -1,0 +1,11 @@
+<div class="photo-edit-container">
+ <button class="my-button" ng-click="editPhotos = false">go back to main page</button>
+  <div ng-repeat="photo in photos">
+    <img class="img img-responsive" src="{{'img/'+photo.fileName}}"  alt="photo.details">
+    <form name="editPhotosForm">
+      <input type="text">
+      <input type="text">
+      <input type="text">
+    </form>
+  </div>
+<div>

@@ -1,13 +1,24 @@
 var app = angular.module('photoApp', ['ngFileUpload']);
 
-app.filter('trusted', ['$sce', function ($sce) {
-    return function(url) {
-        return $sce.trustAsResourceUrl(url);
-    };
-}]);
 
+
+app.directive('mainPage', function(){
+  return {
+    restrict: 'E',
+    templateUrl: "main-page.html"
+  }
+});
+
+app.directive('editPhotos', function(){
+  return {
+    restrict: "E",
+    templateUrl: "edit-photos.html"
+  }
+});
 
 app.controller('mainController', ['$scope','Upload','$http', '$timeout', '$sce', function($scope,Upload,$http,$timeout,$sce){
+    $scope.editPhotos = false;
+    $scope.register = false;
   
     //grabs session user
     function refreshUser(){
